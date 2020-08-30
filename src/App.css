@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: #282c34;
+  background-color: #6666FF;
  
 }
 
@@ -16,7 +16,7 @@
     }
   }
 .App-header {
-  background-color: #282c34;
+  background-color: #4f71b6;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -27,22 +27,22 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #99FFFF;
 }
 .card{
   display: inline-block;
   text-align: center;
   width: 3em;
   font-size: 2em;
-  box-shadow: 0 8px 15px 0 rgb(255, 0, 0);
+  box-shadow: 0 8px 15px 0 #CCFF66;
   margin: 2em;
   user-select: none;
 }
 .bg{
-  background-color: rgb(0, 0, 0);
+  background-color: #9933FF;
 }
 .titleBg{
-  background-color: rgb(0, 0, 0);
+  background-color: #9933FF;
 
 }
 #title{
@@ -53,7 +53,7 @@
   display: inline-block;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   margin: 1.5em;
-  background-color: rgb(8, 33, 255);
+  background-color: #FF6666;
   border: none;
   color: rgb(255, 255, 255);
   padding: 15px 32px;
@@ -70,8 +70,8 @@
   font-size: 50px;
 }
 .activeCard{
-  color: aqua;
-  background: rgb(0, 0, 0) 
+  color: #330000;
+  background: #33FFCC
 }
 @keyframes App-logo-spin {
   from {

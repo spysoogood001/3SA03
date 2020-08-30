@@ -1,48 +1,78 @@
-import React, { useState } from 'react';
-import _, { attempt } from 'lodash';
-
+import React, { useState, Component } from 'react';
 import CharacterCard from './CharacterCard';
+import _ from 'lodash';
 
-const prepareStateFromWord = given_word => {
+
+const prepareStateFromWord = (given_word) => {
     let word = given_word.toUpperCase()
     let chars = _.shuffle(Array.from(word))
     return {
         word,
         chars,
-        attempt: 1,
-        guess: '',
+        attempt: 3,
+        guess: [],
         completed: false
     }
 }
 
-export default function Wordcard(props){
-   
-    const [state, setState] = useState(prepareStateFromWord(props.value))
-    
-    const activationHandler = c =>{
-        console.log(`${c} has been activated`)
 
-        let guess = state.guess + c
-        setState({...state, guess})
+export default class WordCard extends Component{
 
-        if(guess.length == state.word.length)
-            if(guess == state.word){
-                console.log('yeah!')
-                setState({...state, completed: true})
-            }else{
-                console.log('reset, next attempt')
-                setState({...state, guess: '', attempt: state.attempt + 1})
-            }
-
-        console.log(guess)
+    constructor(props){
+        super(props)
+        console.log(this.props.value)
+        this.state = prepareStateFromWord(this.props.value)        
+         console.log(this.state.word)
+     
     }
-    return(
-        <div>
-            {
-                state.chars.map((c,i) => 
-                    <CharacterCard value={c} key={i} activationHandler={activationHandler} attempt={state.attempt}/>
-                )
+    
+ 
+
+    activationHandler = (c) => {
+        console.log(`${c} has been activated.`)
+        this.changeLevel()
+        this.forceUpdate()
+        console.log(this.state.word)
+        let guess = [...this.state.guess, c]
+        this.setState({guess})
+        
+        if(guess.length == this.state.chars.length){
+            console.log(`${guess.join('').toString()} ${this.state.chars.join('').toString()}`)
+            if(guess.join('').toString() == this.state.chars.join('').toString()){
+                this.setState({guess: [], completed: true})
+                document.getElementById('result').innerHTML = `You Win!!!!`
+
             }
-        </div>
-    )
+            else{
+                this.setState({guess: [], attempt: this.state.attempt - 1})
+                document.getElementById('result').innerHTML = `You have "${this.state.attempt}" rounds  `
+                    if(this.state.attempt == 0){
+                        document.getElementById('result').innerHTML = `GameOver `
+                        document.getElementById('correct_word').innerHTML = `Correct Word  = ${this.state.chars.join('').toString()}`
+                    }
+                    
+            }
+        }
+    }
+
+    changeLevel = () => {
+        if(this.props.isNextLevel){
+            this.setState({
+                word: this.props.value,
+                chars : _.shuffle(Array.from(this.props.value))
+            })
+            this.props.reset()
+        }
+
+    }
+    render(){
+        console.log(this.props.value)
+        return(
+            <div>
+            { Array.from(this.props.value).map((c,i) => <CharacterCard value={c} key={i} activationHandler={this.activationHandler} {...this.state}/>)}
+            </div>
+        );
+    }
+
+
 }
